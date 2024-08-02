@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeamlessPay - Retrieve Bitcoin Investment</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Homepage</a></li>
+                <li><a href="financial-insights.html">Financial Insights</a></li>
+                <li><a href="financial-services.html">Financial Services</a></li>
+                <li><a href="credit-card.html">Credit Card Management</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="content">
+        <header>
+            <h1>Retrieve Bitcoin Investment</h1>
+            <div class="logo-container">
+                <img src="logo1.png" alt="SeamlessPay Logo">
+                <span>SeamlessPay</span>
+            </div>
+        </header>
+        <section>
+            <h2>Retrieve Your Bitcoin Investment</h2>
+            <div id="investmentAmountDisplay"></div>
+            <form id="retrieveForm">
+                <div class="mb-3">
+                    <label for="password" class="form-label">Enter Password to Retrieve</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Retrieve</button>
+            </form>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <div class="container">
+            <p class="mb-1">&copy; 2024 SeamlessPay. All rights reserved.</p>
+            <p class="mb-0">
+                <a href="privacy-policy.html" class="text-white">Privacy Policy</a> | 
+                <a href="terms-of-service.html" class="text-white">Terms of Service</a> |
+                <a href="contact.html" class="text-white">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+    <script>
+        const retrieveForm = document.getElementById('retrieveForm');
+        const investmentAmountDisplay = document.getElementById('investmentAmountDisplay');
+        const passwordInput = document.getElementById('password');
+        let investmentAmount = JSON.parse(localStorage.getItem('investmentAmount')) || 0;
+        const user = JSON.parse(localStorage.getItem('user')); // Retrieve the stored user object
+        const correctPassword = user ? user.storedPassword : ''; // Get the stored password
+
+        function updateInvestmentAmountDisplay() {
+            if (investmentAmount > 0) {
+                investmentAmountDisplay.innerHTML = `<p><strong>Total Investment:</strong> $${investmentAmount}</p>`;
+            } else {
+                investmentAmountDisplay.innerHTML = '<p>No investment made yet.</p>';
+            }
+        }
+
+        retrieveForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const password = passwordInput.value;
+            if (password === correctPassword) {
+                const amountToRetrieve = investmentAmount; // Retrieve all invested amount
+                investmentAmount = 0;
+                localStorage.setItem('investmentAmount', JSON.stringify(investmentAmount));
+                updateInvestmentAmountDisplay();
+                alert('Investment retrieved successfully!');
+                window.location.href = 'bitcoin-investment.html';
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        });
+
+        updateInvestmentAmountDisplay();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
